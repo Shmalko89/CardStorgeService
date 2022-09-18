@@ -1,4 +1,6 @@
+using CardStorageService.Data;
 using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.EntityFrameworkCore;
 using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,15 @@ builder.Host.ConfigureLogging(logging =>
     logging.AddConsole();
 
 }).UseNLog(new NLogAspNetCoreOptions() { RemoveLoggerFactoryFilter = true });
+
+#endregion
+
+#region Configure EF DBContext Service (CardStorgeService DataBase)
+
+builder.Services.AddDbContext<CardStorgeServiceDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration["Settings:DatabaseOptions:ConnectionString"]);
+});
 
 #endregion
 // Add services to the container.
