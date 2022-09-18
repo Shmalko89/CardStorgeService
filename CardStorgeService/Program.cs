@@ -1,4 +1,6 @@
 using CardStorageService.Data;
+using CardStorgeService.Services;
+using CardStorgeService.Services.Impl;
 using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
@@ -32,6 +34,13 @@ builder.Services.AddDbContext<CardStorgeServiceDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration["Settings:DatabaseOptions:ConnectionString"]);
 });
+
+#endregion
+
+#region Configure Repository Services
+
+builder.Services.AddScoped<IClientRepositoryService, ClientRepository>();
+builder.Services.AddScoped<ICardRepositoryService, CardRepository>();
 
 #endregion
 // Add services to the container.
