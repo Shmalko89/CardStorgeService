@@ -31,7 +31,7 @@ namespace CardStorageService.Data
         public string? CVV2 { get; set; }
 
         [Column]
-        public DateTime ExpDate { get; set; }
+        public string? ExpDate { get; set; }
 
         public virtual Client Client { get; set; }
     }

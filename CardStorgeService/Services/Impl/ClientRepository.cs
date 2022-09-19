@@ -2,17 +2,17 @@
 
 namespace CardStorgeService.Services.Impl
 {
-    public class ClientRepository : IClientRepositoryService
+    public class IClientRepository : IClientRepositoryService
     {
         #region Services
 
         private readonly CardStorgeServiceDbContext _context;
-        private readonly ILogger<ClientRepository> _logger;
+        private readonly ILogger<IClientRepository> _logger;
 
         #endregion
 
         #region Constructors
-        public ClientRepository(ILogger<ClientRepository> logger, CardStorgeServiceDbContext context)
+        public IClientRepository(ILogger<IClientRepository> logger, CardStorgeServiceDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -20,7 +20,9 @@ namespace CardStorgeService.Services.Impl
 
         public int Create(Client data)
         {
-            throw new NotImplementedException();
+            _context.Clients.Add(data);
+            _context.SaveChanges();
+            return data.ClientId;
         }
 
         public int Delete(int id)

@@ -8,7 +8,7 @@
   
         public string? CVV2 { get; set; }
   
-        public string ExpDate { get; set; }
+        public string? ExpDate { get; set; }
    
     }
 }

@@ -1,5 +1,7 @@
 ﻿using CardStorageService.Data;
+using CardStorgeService.Models;
 using CardStorgeService.Services.Impl;
+using Microsoft.Extensions.Options;
 
 namespace CardStorgeService.Services.Impl
 {
@@ -8,20 +10,27 @@ namespace CardStorgeService.Services.Impl
         #region Services
 
         private readonly CardStorgeServiceDbContext _context;
-        private readonly ILogger<ClientRepository> _logger;
+        private readonly ILogger<IClientRepository> _logger;
+        private readonly IOptions<DataBaseOptions> _dataBaseOptions;
 
         #endregion
 
         #region Constructors
-        public CardRepository(ILogger<ClientRepository> logger, CardStorgeServiceDbContext context)
+        public CardRepository(ILogger<IClientRepository> logger, CardStorgeServiceDbContext context, IOptions<DataBaseOptions> dataBaseOptions)
         {
             _logger = logger;
             _context = context;
+            _dataBaseOptions = dataBaseOptions;
         }
 
         public string Create(Card data)
         {
-            throw new NotImplementedException();
+            var client = _context.Clients.FirstOrDefault(client => client.ClientId == data.ClientId);
+            if (client == null)
+                throw new Exception("Client not found!");
+            _context.Cards.Add(data);
+            _context.SaveChanges();
+            return data.CardId.ToString();
         }
 
         public int Delete(string id)
